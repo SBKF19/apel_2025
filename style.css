@@ -40,8 +40,28 @@ header {
     flex-direction: column;
 }
 
+.fit {
+    width: fit-content;
+}
+
 .full {
     height: 100%;
+}
+
+.blueText {
+    color: #0B2973;
+}
+
+.greenText {
+    color: #29b01f;
+}
+
+.noDeco,
+button,
+.buttonBar,
+.buttonBar2,
+.buttonConnect {
+    text-decoration: none;
 }
 
 /**************/
@@ -56,29 +76,41 @@ header {
 .button {
     display: flex;
     align-items: center;
-    background: #0B2973;
-    text-decoration: none;
+    background-color: #0B2973;
     color: white;
 }
 
 .buttonBar {
-    padding-left: 10px;
-    box-sizing: border-box;
-    width: 100%;
-    height: 50px;
     color: white;
     border-right: 3px solid #000000;
 }
 
+.buttonBar2 {
+    display: flex;
+    align-items: center;
+    color: black;
+}
+
+.buttonBar,
+.buttonBar2 {
+    padding-left: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 50px;
+}
+
 .buttonConnect {
+    display: block;
     text-align: center;
+    align-items: center;
     width: 200px;
     height: 50px;
     border-radius: 10px;
     border: none
 }
 
-.buttonConnect:hover {
+.buttonConnect:hover,
+.buttonBar:hover {
     cursor: pointer;
     background: linear-gradient(90deg, #297355 0%, #0B2973 100%);
 }
@@ -89,7 +121,7 @@ header {
     margin-top: 60px;
 }
 
-input {
+.input {
     width: 300px;
     height: 30px;
 }
@@ -99,4 +131,19 @@ input,
 .buttonBar,
 .buttonConnect {
     margin-top: 10px;
+}
+
+
+/*------------------------------INSCRIPTION--------------------------------------*/
+
+.conditions {
+    margin: 8px 0 0 0;
+    width: 318px;
+    font-style: italic;
+    line-height: 19px;
+}
+
+.checkbox {
+    margin-top: 10px;
+    height: fit-content;
 }

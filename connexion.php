@@ -21,6 +21,9 @@ include_once 'includes/header.php';
                 <input class="input" type="date" id="birth" name="birth" required>
                 <button class="button buttonConnect" type="submit">Se connecter</button>
             </div>
+            <p>Problèmes de connexion ? <a href="mail.php" class="blueText noDeco">Cliquez ici</a> pour nous envoyer un
+                e-mail
+            </p>
     </div>
 </div>
 <?php
