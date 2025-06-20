@@ -1,5 +1,46 @@
 <?php
 include_once 'includes/header.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $name = trim($_POST['name']);
+    $birth = trim($_POST['birth']);
+
+    if (!empty($name) && !empty($birth)) {
+
+        $requete = $connexion->prepare('
+        SELECT nom_uti, prenom_uti, date_nai_uti, role_uti, id_classe
+        FROM utilisateur
+        WHERE nom_uti = :name AND date_nai_uti = :birth
+        ');
+        $requete->bindParam('name', $name);
+        $requete->bindParam('birth', $birth);
+        $requete->execute();
+        $utilisateur = $requete->fetch(\PDO::FETCH_ASSOC);
+
+        if ($utilisateur) {
+            // L'utilisateur existe, on le connecte.
+            $_SESSION['utilisateur'] = [
+                'nom' => $utilisateur['nom_uti'],
+                'prenom' => $utilisateur['prenom_uti'],
+                'date_nai' => $utilisateur['date_nai_uti'],
+                'role' => $utilisateur['role_uti'],
+                'classe' => $utilisateur['id_classe']
+            ];
+            header('Location: liste_eleve.php');
+            exit();
+        } else {
+            $error = "Aucun utilisateur trouvé avec ces informations.";
+        }
+
+
+        header('Location: inscription.php');
+        exit();
+    } else {
+        $error = "Veuillez remplir tous les champs.";
+    }
+}
+
+
 ?>
 <header>
 

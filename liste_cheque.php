@@ -8,12 +8,12 @@ include_once 'includes/header.php';
     <div class="sideBar">
         <a href="connexion.php" class="button buttonBar"><span>Listes</span></a>
         <a href="total.php" class="buttonBar3"><span>Cartes</span></a>
-        <a href="liste_eleve.php" class="buttonBar4"><span>Détails</span></a>
-        <a href="liste_cheque.php" class="buttonBar3"><span>Chèques</span></a>
+        <a href="liste_eleve.php" class="buttonBar3"><span>Détails</span></a>
+        <a href="liste_cheque.php" class="buttonBar4"><span>Chèques</span></a>
         <a href="includes/deco.php" class="buttonBar2"><span>Deconnexion</span></a>
     </div>
     <div class="smallMargin">
-        <p class="title centerText">Liste des élèves</p>
+        <p class="title centerText">Liste des chèques</p>
         <form action="" method="post">
             <div class="row filter">
                 <div class="column filterElement">
@@ -28,26 +28,22 @@ include_once 'includes/header.php';
                     <label for="class">classe</label>
                 </div>
                 <div class="column filterElement">
-                    <label for="mail">e-mail</label>
+                    <label for="cheque">N° de chèque</label>
+                    <button class="space-top button">trier par N° de chèque</button>
                 </div>
                 <div class="column filterElement">
-                    <label for="birth">date de naissance</label>
+                    <label for="encaisse">montant encaissé</label>
                 </div>
                 <div class="column filterElement">
-                    <label for="card">N° de carte</label>
-                    <button class="space-top button">trier par N° de carte</button>
-
+                    <label for="rendu">montant rendu</label>
                 </div>
                 <div class="column filterElement">
-                    <label for="raz">RAZ</label>
-                </div>
-                <div class="column filterElement">
-                    <label for="debit">Débité?</label>
+                    <label for="comment">commentaire</label>
                 </div>
             </div>
         </form>
         <div>
-            <div class="below-table-grid">
+            <div class="below-table-grid2">
                 <div>Texte 1</div>
                 <div>uvuvuuvuuuvuvuvuvuvuvuvuuvuvuvaaaaaaaaaaaaaaaaaauvuuvuvuvuvuvuuvuvuvuv</div>
                 <div>Texte 3</div>
@@ -57,6 +53,7 @@ include_once 'includes/header.php';
                 <div>Texte 7</div>
                 <div>Texte 8</div>
                 <div>Texte 9</div>
+                <div></div>
             </div>
         </div>
     </div>
