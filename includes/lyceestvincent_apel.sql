@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: mysql-lyceestvincent.alwaysdata.net
--- Generation Time: Jun 16, 2025 at 03:43 PM
--- Server version: 10.11.13-MariaDB
--- PHP Version: 7.4.33
+-- Hôte : 127.0.0.1
+-- Généré le : dim. 22 juin 2025 à 15:08
+-- Version du serveur : 10.4.32-MariaDB
+-- Version de PHP : 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `lyceestvincent_apel`
+-- Base de données : `lyceestvincent_apel`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `carte`
+-- Structure de la table `carte`
 --
 
 CREATE TABLE `carte` (
@@ -36,7 +36,7 @@ CREATE TABLE `carte` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cheque`
+-- Structure de la table `cheque`
 --
 
 CREATE TABLE `cheque` (
@@ -54,19 +54,27 @@ CREATE TABLE `cheque` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `classe`
+-- Structure de la table `classe`
 --
 
 CREATE TABLE `classe` (
   `id_classe` int(11) NOT NULL,
-  `libelle_classe` varchar(255) DEFAULT NULL,
-  `id_uti` int(11) DEFAULT NULL
+  `libelle_classe` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `classe`
+--
+
+INSERT INTO `classe` (`id_classe`, `libelle_classe`) VALUES
+(1, 'Seconde'),
+(2, 'Premiere'),
+(3, 'Terminale');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `debit`
+-- Structure de la table `debit`
 --
 
 CREATE TABLE `debit` (
@@ -80,12 +88,13 @@ CREATE TABLE `debit` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `utilisateur`
+-- Structure de la table `utilisateur`
 --
 
 CREATE TABLE `utilisateur` (
   `id_uti` int(11) NOT NULL,
   `role_uti` varchar(255) DEFAULT NULL,
+  `id_classe` int(11) NOT NULL,
   `date_nai_uti` date DEFAULT NULL,
   `nom_uti` varchar(255) DEFAULT NULL,
   `prenom_uti` varchar(255) DEFAULT NULL,
@@ -93,86 +102,94 @@ CREATE TABLE `utilisateur` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Indexes for dumped tables
+-- Déchargement des données de la table `utilisateur`
+--
+
+INSERT INTO `utilisateur` (`id_uti`, `role_uti`, `id_classe`, `date_nai_uti`, `nom_uti`, `prenom_uti`, `email_uti`) VALUES
+(1, 'eleve', 3, '2005-09-19', 'Benkherouf', 'Sofiane', NULL),
+(2, 'admin', 3, '2011-11-11', 'Idasiak', 'Mikael', NULL);
+
+--
+-- Index pour les tables déchargées
 --
 
 --
--- Indexes for table `carte`
+-- Index pour la table `carte`
 --
 ALTER TABLE `carte`
   ADD PRIMARY KEY (`id_carte`),
   ADD KEY `fk_id_user_carte` (`id_uti`);
 
 --
--- Indexes for table `cheque`
+-- Index pour la table `cheque`
 --
 ALTER TABLE `cheque`
   ADD PRIMARY KEY (`id_cheque`),
   ADD KEY `fk_id_user` (`id_uti`);
 
 --
--- Indexes for table `classe`
+-- Index pour la table `classe`
 --
 ALTER TABLE `classe`
-  ADD PRIMARY KEY (`id_classe`),
-  ADD KEY `fk_id_user_classe` (`id_uti`);
+  ADD PRIMARY KEY (`id_classe`);
 
 --
--- Indexes for table `debit`
+-- Index pour la table `debit`
 --
 ALTER TABLE `debit`
   ADD PRIMARY KEY (`id_debit`),
   ADD KEY `fk_id_carte` (`id_carte`);
 
 --
--- Indexes for table `utilisateur`
+-- Index pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  ADD PRIMARY KEY (`id_uti`);
+  ADD PRIMARY KEY (`id_uti`),
+  ADD KEY `fk_id_user_classe` (`id_classe`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
--- AUTO_INCREMENT for table `cheque`
+-- AUTO_INCREMENT pour la table `cheque`
 --
 ALTER TABLE `cheque`
   MODIFY `id_cheque` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `utilisateur`
+-- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id_uti` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_uti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Constraints for dumped tables
+-- Contraintes pour les tables déchargées
 --
 
 --
--- Constraints for table `carte`
+-- Contraintes pour la table `carte`
 --
 ALTER TABLE `carte`
   ADD CONSTRAINT `fk_id_user_carte` FOREIGN KEY (`id_uti`) REFERENCES `utilisateur` (`id_uti`);
 
 --
--- Constraints for table `cheque`
+-- Contraintes pour la table `cheque`
 --
 ALTER TABLE `cheque`
   ADD CONSTRAINT `fk_id_user` FOREIGN KEY (`id_uti`) REFERENCES `utilisateur` (`id_uti`);
 
 --
--- Constraints for table `classe`
---
-ALTER TABLE `classe`
-  ADD CONSTRAINT `fk_id_user_classe` FOREIGN KEY (`id_uti`) REFERENCES `utilisateur` (`id_uti`);
-
---
--- Constraints for table `debit`
+-- Contraintes pour la table `debit`
 --
 ALTER TABLE `debit`
   ADD CONSTRAINT `fk_id_carte` FOREIGN KEY (`id_carte`) REFERENCES `carte` (`id_carte`);
+
+--
+-- Contraintes pour la table `utilisateur`
+--
+ALTER TABLE `utilisateur`
+  ADD CONSTRAINT `fk_id_user_classe` FOREIGN KEY (`id_classe`) REFERENCES `classe` (`id_classe`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

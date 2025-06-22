@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $requete->bindParam('birth', $birth);
         $requete->execute();
         $utilisateur = $requete->fetch(\PDO::FETCH_ASSOC);
-
         if ($utilisateur) {
             // L'utilisateur existe, on le connecte.
             $_SESSION['utilisateur'] = [
@@ -26,15 +25,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'role' => $utilisateur['role_uti'],
                 'classe' => $utilisateur['id_classe']
             ];
-            header('Location: liste_eleve.php');
-            exit();
+            var_dump($utilisateur);
+            // Redirection vers la liste des élèves si l'utilisateur est un élève
+            if ($_SESSION['utilisateur']['role'] === 'eleve') {
+                header('Location: inscription.php');
+                exit();
+            } elseif ($_SESSION['utilisateur']['role'] === 'admin') {
+                header('Location: listes.php');
+                exit();
+            }elseif ($_SESSION['utilisateur']['role'] === '0') {
+                header('Location: closed.php');
+            } else {
+                $error = "Rôle inconnu. Veuillez contacter l'administrateur.";
+            }
         } else {
-            $error = "Aucun utilisateur trouvé avec ces informations.";
+            $error = "*Aucun utilisateur trouvé avec ces informations.*";
         }
-
-
-        header('Location: inscription.php');
-        exit();
     } else {
         $error = "Veuillez remplir tous les champs.";
     }
@@ -54,8 +60,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p class="subtitle">un outil dédié à l’enregistrement des cartes
             Génération HDF au sein de votre établissement.</p>
         <p class="midtitle">Connexion</p>
-        <form action="inscription.php" method="post">
+        <form action="" method="post">
             <div class="column">
+                <?php if (isset($error)) : ?>
+                    <p class="error"><?= htmlspecialchars($error) ?></p>
+                <?php endif; ?>
                 <label for="name">Nom de famille</label>
                 <input class="input" type="text" id="name" name="name" required>
                 <label class="spaceTop" for="name">Date de naissance</label>

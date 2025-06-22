@@ -56,6 +56,11 @@ header {
     color: #29b01f;
 }
 
+.error{
+    color: red;
+    font-style: italic;
+}
+
 .centerText {
     text-align: center;
     align-items: center;
