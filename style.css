@@ -44,6 +44,10 @@ header {
     width: fit-content;
 }
 
+.marginAuto {
+    margin: 0 auto;
+}
+
 .full {
     height: 100%;
 }
@@ -56,7 +60,7 @@ header {
     color: #29b01f;
 }
 
-.error{
+.error {
     color: red;
     font-style: italic;
 }
@@ -64,6 +68,10 @@ header {
 .centerText {
     text-align: center;
     align-items: center;
+}
+
+.gap {
+    gap: 40px;
 }
 
 .noDeco,

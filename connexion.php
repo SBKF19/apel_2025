@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($name) && !empty($birth)) {
 
         $requete = $connexion->prepare('
-        SELECT nom_uti, prenom_uti, date_nai_uti, role_uti, id_classe
+        SELECT id_uti, nom_uti, prenom_uti, date_nai_uti, role_uti, id_classe, email_uti
         FROM utilisateur
         WHERE nom_uti = :name AND date_nai_uti = :birth
         ');
@@ -19,27 +19,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($utilisateur) {
             // L'utilisateur existe, on le connecte.
             $_SESSION['utilisateur'] = [
+                'id' => $utilisateur['id_uti'],
                 'nom' => $utilisateur['nom_uti'],
                 'prenom' => $utilisateur['prenom_uti'],
                 'date_nai' => $utilisateur['date_nai_uti'],
                 'role' => $utilisateur['role_uti'],
-                'classe' => $utilisateur['id_classe']
+                'classe' => $utilisateur['id_classe'],
+                'email' => $utilisateur['email_uti']
             ];
-            var_dump($utilisateur);
             // Redirection vers la liste des élèves si l'utilisateur est un élève
-            if ($_SESSION['utilisateur']['role'] === 'eleve') {
+            if ($_SESSION['utilisateur']['role'] === 'eleve' && $_SESSION['utilisateur']['email'] !== null) {
+                header('Location: recap.php');
+                exit();
+            } elseif ($_SESSION['utilisateur']['role'] === 'eleve' && $_SESSION['utilisateur']['email'] === null) {
                 header('Location: inscription.php');
                 exit();
             } elseif ($_SESSION['utilisateur']['role'] === 'admin') {
                 header('Location: listes.php');
                 exit();
-            }elseif ($_SESSION['utilisateur']['role'] === '0') {
+            } elseif ($_SESSION['utilisateur']['role'] === '0') {
                 header('Location: closed.php');
             } else {
                 $error = "Rôle inconnu. Veuillez contacter l'administrateur.";
             }
         } else {
-            $error = "*Aucun utilisateur trouvé avec ces informations.*";
+            $error = "*Aucun utilisateur trouvé avec ces informations, verifiez l'ortographe*";
         }
     } else {
         $error = "Veuillez remplir tous les champs.";
@@ -62,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p class="midtitle">Connexion</p>
         <form action="" method="post">
             <div class="column">
-                <?php if (isset($error)) : ?>
+                <?php if (isset($error)): ?>
                     <p class="error"><?= htmlspecialchars($error) ?></p>
                 <?php endif; ?>
                 <label for="name">Nom de famille</label>

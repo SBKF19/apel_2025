@@ -1,5 +1,45 @@
 <?php
 include_once 'includes/header.php';
+if ($_SESSION['utilisateur']['role'] === 'eleve' && $_SESSION['utilisateur']['email'] !== null) {
+    header('Location: recap.php');
+    exit();
+}
+if ($_SESSION['utilisateur'])
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $card = trim($_POST['card']);
+        $mail = trim($_POST['mail']);
+        $birth = trim($_POST['birth']);
+
+        if (!empty($card) && !empty($mail) && !empty($birth)) {
+            $requete1 = $connexion->prepare(
+                'UPDATE utilisateur
+            SET email_uti = :mail,
+            date_nai_uti = :birth
+            WHERE id_uti = :id'
+            );
+            $requete1->bindParam(':id', $_SESSION['utilisateur']['id']);
+            $requete1->bindParam(':mail', $mail);
+            $requete1->bindParam(':birth', $birth);
+            $requete1->execute();
+
+            // Insertion dans la table carte
+            $requete2 = $connexion->prepare(
+                'INSERT INTO carte 
+            (num_carte, id_uti)
+            VALUES (:card, :id);
+            '
+            );
+
+            $requete2->bindParam(':card', $card);
+            $requete2->bindParam(':id', $_SESSION['utilisateur']['id']);
+            $requete2->execute();
+
+            header('Location: recap.php');
+            exit();
+        }
+    }
+
 ?>
 <header>
 
@@ -12,7 +52,7 @@ include_once 'includes/header.php';
     <div class="mainMargin">
         <p class="title">Apel lycée Saint-Vincent 2025</p>
         <p class="midtitle">Veuillez renseigner votre numéro de carte, e-mail et date de naissance</p>
-        <form action="recap.php" method="post">
+        <form action="" method="post">
             <div class="column">
                 <label for="name">N° de carte</label>
                 <input class="input" type="text" id="card" name="card" required>
