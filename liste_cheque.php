@@ -6,7 +6,7 @@ include_once 'includes/header.php';
 </header>
 <div class="row full">
     <div class="sideBar">
-        <a href="connexion.php" class="button buttonBar"><span>Listes</span></a>
+        <a href="listes.php" class="button buttonBar"><span>Listes</span></a>
         <a href="liste_eleve.php" class="buttonBar3"><span>Détails</span></a>
         <a href="liste_cheque.php" class="buttonBar4"><span>Chèques</span></a>
         <a href="includes/deco.php" class="buttonBar2"><span>Deconnexion</span></a>

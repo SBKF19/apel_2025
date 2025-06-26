@@ -64,6 +64,11 @@ header {
     width: 100%;
 }
 
+.fondBleu{
+    background-color: #0B2973;
+    color: white;
+}
+
 .blueText {
     color: #0B2973;
 }

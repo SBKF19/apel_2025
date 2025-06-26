@@ -15,7 +15,7 @@ $liste = $requete1->fetchAll(PDO::FETCH_ASSOC);
 </header>
 <div class="row full">
     <div class="sideBar">
-        <a href="connexion.php" class="button buttonBar"><span>Listes</span></a>
+        <a href="listes.php" class="button buttonBar"><span>Listes</span></a>
         <a href="liste_eleve.php" class="buttonBar4"><span>Détails</span></a>
         <a href="liste_cheque.php" class="buttonBar3"><span>Chèques</span></a>
         <a href="includes/deco.php" class="buttonBar2"><span>Deconnexion</span></a>
@@ -63,8 +63,12 @@ $liste = $requete1->fetchAll(PDO::FETCH_ASSOC);
                     <div> <?php echo $eleve["email_uti"] ?> </div>
                     <div> <?php echo $eleve["date_nai_uti"] ?> </div>
                     <div> <?php echo $eleve["num_carte"] ?> </div>
-                    <div></div>
-                    <div></div>
+                    <div>
+                        <button type="button"> Remettre à zéro </button>
+                    </div>
+                    <div>
+
+                    </div>
                 <?php } ?>
             </div>
         </div>

@@ -45,6 +45,36 @@ if ($_SESSION['utilisateur']) {
             $requete2->bindParam(':id', $_SESSION['utilisateur']['id']);
             $requete2->execute();
 
+            $requete3 = $connexion->prepare(
+                'SELECT id_carte
+            FROM carte
+            WHERE id_uti = :id'
+            );
+            $requete3->bindParam(':id', $_SESSION['utilisateur']['id']);
+            $requete3->execute();
+            $id_carte = $requete3->fetch(\PDO::FETCH_ASSOC);
+
+
+            $mtnDebit = 0;
+            if ($_SESSION['utilisateur']['classe'] == 1) {
+                $mtnDebit = 75;
+            } elseif ($_SESSION['utilisateur']['classe'] == 2) {
+                $mtnDebit = 65;
+            } elseif ($_SESSION['utilisateur']['classe'] == 3) {
+                $mtnDebit = 55;
+            }
+
+            $date = date('Y-m-d H:i:s');
+
+            $requete4 = $connexion->prepare('
+            INSERT INTO debit (mtn_debit, date_debit, id_carte)
+            VALUES (:mtn_debit, :date_debit, :id_carte)');
+
+            $requete4->bindParam('mtn_debit', $mtnDebit);
+            $requete4->bindParam('date_debit', $date);
+            $requete4->bindParam('id_carte', $id_carte['id_carte']);
+            $requete4->execute();
+
             header('Location: recap.php');
             exit();
 
