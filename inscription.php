@@ -1,11 +1,10 @@
 <?php
 include_once 'includes/header.php';
-if ($_SESSION['utilisateur']['role'] === 'eleve' && $_SESSION['utilisateur']['email'] !== null ) {
+if (!empty($_SESSION['utilisateur']['email']) && ($_SESSION['utilisateur']['carte']) != NULL) {
     header('Location: recap.php');
     exit();
 }
 if ($_SESSION['utilisateur']) {
-
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $card = trim($_POST['card']);
         $mail = trim($_POST['mail']);

@@ -1,5 +1,14 @@
 <?php
 include_once 'includes/header.php';
+$requete1 = $connexion->prepare(
+    query: 'SELECT nom_uti, prenom_uti, id_classe, email_uti, date_nai_uti, num_carte
+FROM utilisateur
+JOIN carte ON utilisateur.id_uti = carte.id_uti
+WHERE utilisateur.role_uti = "eleve";'
+);
+$requete1->execute();
+$liste = $requete1->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <header>
 
@@ -14,7 +23,7 @@ include_once 'includes/header.php';
     <div class="smallMargin">
         <p class="title centerText">Liste des élèves</p>
         <form action="" method="post">
-            <div class="row filter">
+            <div class="row filter vwidth85">
                 <div class="column filterElement">
                     <label for="name">nom</label>
                     <button class="space-top button">trier par nom</button>
@@ -47,15 +56,16 @@ include_once 'includes/header.php';
         </form>
         <div>
             <div class="below-table-grid">
-                <div>Texte 1</div>
-                <div>uvuvuuvuuuvuvuvuvuvuvuvuuvuvuvaaaaaaaaaaaaaaaaaauvuuvuvuvuvuvuuvuvuvuv</div>
-                <div>Texte 3</div>
-                <div>Texte 4</div>
-                <div>Texte 5</div>
-                <div>Texte 6</div>
-                <div>Texte 7</div>
-                <div>Texte 8</div>
-                <div>Texte 9</div>
+                <?php foreach ($liste as $eleve) { ?>
+                    <div> <?php echo $eleve["nom_uti"] ?> </div>
+                    <div> <?php echo $eleve["prenom_uti"] ?> </div>
+                    <div> <?php echo $eleve["id_classe"] ?> </div>
+                    <div> <?php echo $eleve["email_uti"] ?> </div>
+                    <div> <?php echo $eleve["date_nai_uti"] ?> </div>
+                    <div> <?php echo $eleve["num_carte"] ?> </div>
+                    <div></div>
+                    <div></div>
+                <?php } ?>
             </div>
         </div>
     </div>

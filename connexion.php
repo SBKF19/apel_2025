@@ -27,20 +27,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'classe' => $utilisateur['id_classe'],
                 'email' => $utilisateur['email_uti']
             ];
+
+            $requete2 = $connexion->prepare('
+        SELECT id_carte
+        FROM carte
+        WHERE id_uti = :id
+        ');
+            $requete2->bindParam('id', $utilisateur['id_uti']);
+            $requete2->execute();
+            $carte = $requete2->fetch(\PDO::FETCH_ASSOC);
+            if ($carte) {
+                $_SESSION['utilisateur']['carte'] = $carte['id_carte'];
+            } else {
+                $_SESSION['utilisateur']['carte'] = null;
+            }
+
             // Redirection vers la liste des élèves si l'utilisateur est un élève
-            if ($_SESSION['utilisateur']['role'] === 'eleve' && $_SESSION['utilisateur']['email'] !== null) {
+            if ($_SESSION['utilisateur']['role'] == 'eleve' && !empty($_SESSION['utilisateur']['email']) && ($_SESSION['utilisateur']['carte']) != NULL) {
                 header('Location: recap.php');
                 exit();
-            } elseif ($_SESSION['utilisateur']['role'] === 'eleve' && $_SESSION['utilisateur']['email'] === null) {
+            } elseif ($_SESSION['utilisateur']['role'] == 'eleve' && $_SESSION['utilisateur']['carte'] == null) {
                 header('Location: inscription.php');
                 exit();
-            } elseif ($_SESSION['utilisateur']['role'] === 'admin') {
+            } elseif ($_SESSION['utilisateur']['role'] == 'admin') {
                 header('Location: listes.php');
                 exit();
-            } elseif ($_SESSION['utilisateur']['role'] === '0') {
+            } elseif ($_SESSION['utilisateur']['role'] == '0') {
                 header('Location: closed.php');
-            } else {
-                $error = "Rôle inconnu. Veuillez contacter l'administrateur.";
             }
         } else {
             $error = "*Aucun utilisateur trouvé avec ces informations, verifiez l'ortographe*";

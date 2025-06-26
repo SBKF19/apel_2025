@@ -52,6 +52,18 @@ header {
     height: 100%;
 }
 
+.vwidth85 {
+    width: 85vw;
+}
+
+.fullVwidth {
+    width: 100vw;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
 .blueText {
     color: #0B2973;
 }
@@ -195,6 +207,7 @@ input,
     text-align: center;
     align-items: center;
     border: #000000 1px solid;
+    width: 100%;
 }
 
 .filter input {
